@@ -1,3 +1,3 @@
 # Proyecto2
 
-Visita nuestro [wiki](wiki) para revisar nuestra investigación.
+Visita nuestro [wiki](../../wiki) para revisar nuestra investigación.
