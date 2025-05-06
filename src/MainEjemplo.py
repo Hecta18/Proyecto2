@@ -1,10 +1,10 @@
-import ejemploNeo4j
+from Neo4jConnection import Neo4jConnection 
 from neo4j import GraphDatabase
 
 # Cambia estos datos según tu configuración
 URI = "bolt://localhost:7687"
 USER = "neo4j"
-PASSWORD = "tu_contraseña_aquí"  # Usa la que definiste al iniciar Neo4j
+PASSWORD = ""  # Usa la que definiste al iniciar Neo4j
 
 # Crear un nodo de prueba
 create_query = """
