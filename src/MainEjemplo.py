@@ -9,6 +9,7 @@ PASSWORD = ""  # Usa la que definiste al iniciar Neo4j
 
 # Datos usuario
 nombre_usuario = 'Juan'
+perfil_usuario = 'Influencer'
 
 # Datos restaurante
 nombre_restaurante = 'Burger King'
@@ -17,7 +18,7 @@ calificacion_restaurante = 4.5
 
 # queries
 create_usuario = """
-CREATE (u:Usuario {nombre: """ + nombre_usuario + """})
+CREATE (u:Usuario {nombre: """ + nombre_usuario + """, perfil: """ + perfil_usuario + """})
 RETURN u
 """
 create_restaurant = """
@@ -37,10 +38,17 @@ LIMIT 5
 """
 content_based = """
 MATCH (r:Restaurante)
-WHERE r.tipo CONTAINS 'Comida rápida'
+WHERE r.tipo CONTAINS """ + tipo_restaurante + """
   AND r.calificacion >= 4.0
 RETURN r.nombre
-LIMIT 10
+LIMIT 5
+"""
+profile_based = """
+MATCH (u:Usuario {nombre: """ + nombre_usuario + """})-[:ES]->(:Perfil {tipo: """ + perfil_usuario + """})
+MATCH (r:Restaurante)
+WHERE r.nuevo = true AND r.calificacion >= 4
+RETURN r.nombre
+LIMIT 5
 """
 
 # Crear conexión
@@ -50,6 +58,9 @@ conn = Neo4jConnection(URI, USER, PASSWORD)
 print(queryWithResults(conn, create_usuario))
 print(queryWithResults(conn, create_restaurant))
 print(queryWithResults(conn, create_relation))
+print(queryWithResults(conn, explicit_feedback))
+print(queryWithResults(conn, content_based))
+print(queryWithResults(conn, profile_based))
 
 # Cerrar conexión
 conn.close()
