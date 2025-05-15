@@ -30,7 +30,7 @@ MATCH (r:Restaurante {nombre: """ + nombre_restaurante + """}), (u:Usuario {nomb
 CREATE (u)-[:PEDIR]->(r)
 RETURN a, b
 """
-explicit_feedback = """
+explicit_feedback_based = """
 MATCH (u:Usuario {nombre: """ + nombre_usuario + """})-[:PEDIR]->(r:Restaurante)<-[:PEDIR]-(otro:Usuario)-[:PIDIÓ]->(sugerido:Restaurante)
 WHERE NOT (u)-[:PEDIR]->(sugerido)
 RETURN sugerido.nombre
@@ -58,9 +58,10 @@ conn = Neo4jConnection(URI, USER, PASSWORD)
 print(queryWithResults(conn, create_usuario))
 print(queryWithResults(conn, create_restaurant))
 print(queryWithResults(conn, create_relation))
-print(queryWithResults(conn, explicit_feedback))
+print(queryWithResults(conn, explicit_feedback_based))
 print(queryWithResults(conn, content_based))
 print(queryWithResults(conn, profile_based))
+print(hibridRecommendation(explicit_feedback_based, content_based, profile_based, conn))
 
 # Cerrar conexión
 conn.close()
