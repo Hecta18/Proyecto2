@@ -1,5 +1,8 @@
 # Proyecto2
-Instrucciones Fase 1:
+## Requisitos técnicos:
+Python3 (v.3.10.12  se utilizo para el proyecto)
+
+## Instrucciones Fase 1:
 - Utilice la metodología de Design Thinking para definir correctamente el problema que desea resolver
 por medio de este proyecto. Recuerde que las etapas principales son:
 o Empatía
