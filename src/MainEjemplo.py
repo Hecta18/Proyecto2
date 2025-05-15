@@ -31,7 +31,7 @@ CREATE (u)-[:PEDIR]->(r)
 RETURN a, b
 """
 explicit_feedback_based = """
-MATCH (u:Usuario {nombre: """ + nombre_usuario + """})-[:PEDIR]->(r:Restaurante)<-[:PEDIR]-(otro:Usuario)-[:PIDIÓ]->(sugerido:Restaurante)
+MATCH (u:Usuario {nombre: """ + nombre_usuario + """})-[:PEDIR]->(r:Restaurante)<-[:PEDIR]-(otro:Usuario)-[:PEDIR]->(sugerido:Restaurante)
 WHERE NOT (u)-[:PEDIR]->(sugerido)
 RETURN sugerido.nombre
 LIMIT 5
