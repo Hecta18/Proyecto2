@@ -5,8 +5,6 @@ Visita nuestro [wiki](../../wiki) para revisar nuestra investigación.
 Python3 (v.3.10.12  se utilizo para el proyecto)
 
 ## Instrucciones:
-**Resumen de Instrucciones para el Desarrollo de un Sistema de Recomendaciones**
-
 **Competencias a Desarrollar:**
 1. Diseñar un algoritmo para recomendaciones en un área seleccionada.
 2. Implementar el sistema utilizando una base de datos basada en grafos.
