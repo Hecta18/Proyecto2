@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Taco-ntento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .barra {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .barra button {
+            margin-right: 10px;
+            padding: 10px;
+        }
+
+        .barra input[type="text"] {
+            margin-left: 20px;
+            padding: 8px;
+            width: 200px;
+        }
+
+        .seccion {
+            margin-top: 30px;
+        }
+
+        .seccion h3 {
+            margin-bottom: 10px;
+        }
+
+        .contenedor-cajas {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .caja {
+            background-color: #3a7bd5;
+            height: 80px;
+            flex: 1 1 calc(33.333% - 10px);
+            min-width: 150px;
+        }
+
+        .ventana {
+            border: 2px solid #888;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ventana">
+        <div class="barra">
+            <button onclick="location.href='/cuenta'">Mi cuenta</button>
+            <button>Mi pedido</button>
+            <span style="margin-left: auto;">
+                ¿Algo nuevo?
+                <input type="text" placeholder="Search">
+                <button>Filtros ▼</button>
+            </span>
+        </div>
+
+        <div class="seccion">
+            <h3>Lo más pedido</h3>
+            <div class="contenedor-cajas">
+                <div class="caja"></div>
+                <div class="caja"></div>
+                <div class="caja"></div>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h3>Recomendaciones según tus pedidos</h3>
+            <div class="contenedor-cajas">
+                <div class="caja"></div>
+                <div class="caja"></div>
+                <div class="caja"></div>
+            </div>
+        </div>
+
+        <div class="seccion">
+            <h3>Usuarios con tus mismos gustos también piden...</h3>
+            <div class="contenedor-cajas">
+                <div class="caja"></div>
+                <div class="caja"></div>
+                <div class="caja"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
