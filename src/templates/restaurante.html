@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurante - Taco-ntento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .ventana {
+            border: 2px solid #888;
+            width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .titulo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .titulo h2 {
+            margin: 0;
+        }
+
+        .btn-ordenar {
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .descripcion {
+            margin-top: 20px;
+        }
+
+        .recomendaciones {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .categoria {
+            margin-top: 30px;
+        }
+
+        .categoria h3 {
+            margin-bottom: 10px;
+        }
+
+        .contenedor-cajas {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .caja {
+            background-color: #3a7bd5;
+            height: 80px;
+            flex: 1 1 calc(33.333% - 10px);
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ventana">
+        <div class="titulo">
+            <h2>Nombre del Restaurante</h2>
+            <button class="btn-ordenar">Ordenar</button>
+        </div>
+
+        <div class="descripcion">
+            <p>Este restaurante es uno de los más pedidos por los usuarios en Taco-ntento.</p>
+        </div>
+
+        <div class="recomendaciones">
+            Recomendaciones:
+        </div>
+
+        <div class="categoria">
+            <h3>Entradas</h3>
+            <div class="contenedor-cajas">
+                <div class="caja"></div>
+                <div class="caja"></div>
+                <div class="caja"></div>
+            </div>
+        </div>
+
+        <div class="categoria">
+            <h3>Platos Fuertes</h3>
+            <div class="contenedor-cajas">
+                <div class="caja"></div>
+                <div class="caja"></div>
+                <div class="caja"></div>
+            </div>
+        </div>
+
+        <div class="categoria">
+            <h3>Postres</h3>
+            <div class="contenedor-cajas">
+                <div class="caja"></div>
+                <div class="caja"></div>
+                <div class="caja"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
