@@ -1,40 +1,30 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = "clave_secreta"
 
-# Simulación de usuarios registrados
-usuarios = [
-    {"email": "diego@example.com", "password": "1234"},
-    {"email": "giancarlo@example.com", "password": "abcd"}
-]
-
-@app.route('/')
+@app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-
-        # Verificar si el usuario existe
-        for user in usuarios:
-            if user["email"] == email and user["password"] == password:
-                return redirect(url_for("home"))
-        flash("Correo o contraseña incorrectos")
+        # Simulación de login exitoso
+        return redirect(url_for("home"))
     return render_template("login.html")
 
-@app.route('/home')
+@app.route("/home")
 def home():
     return render_template("home.html")
 
-@app.route('/cuenta', methods=["GET", "POST"])
+@app.route("/cuenta", methods=["GET", "POST"])
 def cuenta():
+    if request.method == "POST":
+        # Procesar cambios de cuenta
+        return redirect(url_for("home"))
     return render_template("cuenta.html")
 
-@app.route('/restaurante')
+@app.route("/restaurante")
 def restaurante():
     return render_template("restaurante.html")
 
