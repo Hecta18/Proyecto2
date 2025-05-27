@@ -14,7 +14,7 @@ perfil_usuario = 'Influencer'
 # Datos restaurante
 nombre_restaurante = 'Burger King'
 tipo_restaurante = 'Comida rápida'
-calificacion_restaurante = 4.5
+calificacion_restaurante = '4.5'
 
 # queries
 create_usuario = """
