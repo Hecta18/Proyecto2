@@ -1,11 +1,13 @@
 from Neo4jConnection import Neo4jConnection 
 from Functions import *
 from neo4j import GraphDatabase
+#import os
 
 # Cambia estos datos según tu configuración
 URI = "bolt://localhost:7687"
 USER = "neo4j"
-PASSWORD = ""  # Usa la que definiste al iniciar Neo4j
+PASSWORD = '' #os.environ.get("NEO4J_PASSWORD")
+# seguridad de contraseña con variable de entorno
 
 # Datos usuario
 nombre_usuario = 'Juan'
