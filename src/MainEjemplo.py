@@ -2,12 +2,17 @@ from Neo4jConnection import Neo4jConnection
 from Functions import *
 from neo4j import GraphDatabase
 #import os
+#from dotenv import load_dotenv
+#load_dotenv()  # Cargar variables de entorno desde un archivo .env
 
 # Cambia estos datos según tu configuración
 URI = "bolt://localhost:7687"
 USER = "neo4j"
-PASSWORD = '' #os.environ.get("NEO4J_PASSWORD")
+PASSWORD = '' 
+#os.environ.get("NEO4J_PASSWORD")
 # seguridad de contraseña con variable de entorno
+#os.getenv("NEO4J_PASSWORD")
+# metodo con archivo .env
 
 # Datos usuario
 nombre_usuario = 'Juan'
