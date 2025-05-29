@@ -75,9 +75,9 @@ conn = Neo4jConnection(URI, USER, PASSWORD)
 
 # Ejecutar consultas
 try:
-    print(queryWithoutResults(conn, create_usuario))
-    print(queryWithoutResults(conn, create_restaurant))
-    print(queryWithoutResults(conn, create_perfil))
+    print(queryWithResults(conn, create_usuario, 'u'))
+    print(queryWithResults(conn, create_restaurant, 'r'))
+    print(queryWithResults(conn, create_perfil, 'p'))
     print(queryWithoutResults(conn, create_relation_order))
     print(queryWithoutResults(conn, create_relation_be))
     # print(queryWithResults(conn, explicit_feedback_based))

@@ -1,17 +1,17 @@
 #modulo de funciones
 
-#ejecutar y mostrar consulta
+#ejecutar consulta
 def queryWithoutResults(conn, query):
     # Ejecutar consulta
     conn.run_query(query)
     
 #ejecutar y mostrar consulta
-def queryWithResults(conn, query):
+def queryWithResults(conn, query, alias):
     # Ejecutar consulta
     resultados = conn.run_query(query)
     # Mostrar resultados
     for r in resultados:
-        return r["r"]
+        return r[alias]
     
 #Algoritmo Intersección de conjuntos(set), complejidad O(n)
 #Set = unordered collection of unique elements.
