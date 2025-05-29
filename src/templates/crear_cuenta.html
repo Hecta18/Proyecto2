@@ -69,5 +69,11 @@
             <button type="submit">Confirmar</button>
         </form>
     </div>
+
+    {% if error %}
+    <script>
+        alert("{{ error }}");
+    </script>
+    {% endif %}
 </body>
 </html>
