@@ -49,5 +49,10 @@ def preguntas():
         return redirect(url_for("home"))
     return render_template("preguntas.html")
 
+@app.route("/pedido")
+def pedido():
+    return render_template("pedido.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
