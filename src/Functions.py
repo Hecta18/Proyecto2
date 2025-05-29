@@ -1,6 +1,11 @@
 #modulo de funciones
 
 #ejecutar y mostrar consulta
+def queryWithoutResults(conn, query):
+    # Ejecutar consulta
+    conn.run_query(query)
+    
+#ejecutar y mostrar consulta
 def queryWithResults(conn, query):
     # Ejecutar consulta
     resultados = conn.run_query(query)
