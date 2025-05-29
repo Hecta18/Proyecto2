@@ -39,18 +39,19 @@ def eliminar_pedido(index):
 
 @app.route("/crear_cuenta", methods=["GET", "POST"])
 def crear_cuenta():
-    mensaje = ""
+    error = ""
     if request.method == "POST":
-        usuario = request.form["usuario"]
-        contra = request.form["contra"]
+        correo = request.form["correo"]
+        nombre = request.form["nombre"]
+        password = request.form["password"]
         confirmar = request.form["confirmar"]
 
-        if contra != confirmar:
-            mensaje = "La contraseña no coincide"
+        if password != confirmar:
+            error = "La contraseña no coincide"
         else:
             return redirect(url_for("cuenta"))
 
-    return render_template("crear_cuenta.html", mensaje=mensaje)
+    return render_template("crear_cuenta.html", error=error)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
