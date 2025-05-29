@@ -3,17 +3,21 @@ from Functions import *
 from neo4j import GraphDatabase
 import os
 from dotenv import load_dotenv
-load_dotenv()  # Cargar variables de entorno desde un archivo .env
 
-# Cambia estos datos según configuración
+load_dotenv()  
+# Cargar variables de entorno desde un archivo .env
+
+# Cambiar datos según configuración
 URI = "neo4j+s://33610e87.databases.neo4j.io" #aura
-# local = "bolt://localhost:7687"
+# local => "bolt://localhost:7687"
 USER = "neo4j"
 PASSWORD = os.getenv("PASSWORD")
 # metodo con archivo .env
 
 # Datos usuario
 nombre_usuario = 'Pedro'
+correo = 'email@email.com'
+contraseña = '123456'
 comida_preferida = 'Hamburguesas'
 restaurante_preferido = 'Burger King'
 
@@ -28,7 +32,7 @@ calificacion_recomendacion = 4.0
 
 # queries
 create_usuario = """
-CREATE (u:Usuario {nombre: '""" + nombre_usuario + """', comida: '""" + comida_preferida + """', restaurante: '""" + restaurante_preferido + """'})
+CREATE (u:Usuario {nombre: '""" + nombre_usuario + """', comida: '""" + comida_preferida + """', restaurante: '""" + restaurante_preferido + """', correo: '""" + correo + """', contraseña: '""" + contraseña + """'})
 RETURN u
 """
 create_restaurant = """
@@ -49,6 +53,20 @@ MATCH (p:Perfil {nombre: '""" + nombre_perfil + """'}), (u:Usuario {nombre: '"""
 CREATE (u)-[:ES]->(p)
 RETURN u, p
 """
+login = """
+MATCH (u:Usuario {correo: '""" + correo + """', contraseña: '""" + contraseña + """'})
+RETURN u
+"""
+search_restaurant = """
+MATCH (r:Restaurante {nombre: '""" + nombre_restaurante + """'})
+RETURN r
+"""
+search_restaurant_type = """
+MATCH (r:Restaurante {tipo: '""" + tipo_restaurante + """'})
+RETURN r
+LIMIT 5
+"""
+# queries recomendación
 explicit_feedback_based = """
 MATCH (u:Usuario {nombre: '""" + nombre_usuario + """'})-[:PEDIR]->(r:Restaurante)<-[:PEDIR]-(otro:Usuario)-[:PEDIR]->(sugerido:Restaurante)
 WHERE NOT (u)-[:PEDIR]->(sugerido)
