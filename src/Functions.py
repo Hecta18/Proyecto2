@@ -1,5 +1,22 @@
 #modulo de funciones
+from MainEjemplo import login, hashed_password
 
+#hashear contraseña
+def hash_password(password):
+    # Genera salt(valor aleatorio) y hashea
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed
+
+#verificar contraseña
+def check_password(stored_hash, password):
+    return bcrypt.checkpw(password.encode('utf-8'), stored_hash)
+
+#login con chequeo de contraseña
+def login_withCheck(conn, contraseña, query=hashed_password):
+    if check_password(queryWithResults(conn, query, 'u'), contraseña) == True:
+            print(queryWithoutResults(conn, login, 'u'))
+        
 #ejecutar consulta
 def queryWithoutResults(conn, query):
     # Ejecutar consulta
