@@ -39,10 +39,19 @@ def eliminar_pedido(index):
 
 @app.route("/crear_cuenta", methods=["GET", "POST"])
 def crear_cuenta():
+    mensaje = ""
     if request.method == "POST":
-        # lógica para registrar al usuario
-        pass
-    return render_template("crear_cuenta.html")
+        usuario = request.form["usuario"]
+        contra = request.form["contra"]
+        confirmar = request.form["confirmar"]
+
+        if contra != confirmar:
+            mensaje = "La contraseña no coincide"
+        else:
+            return redirect(url_for("cuenta"))
+
+    return render_template("crear_cuenta.html", mensaje=mensaje)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
