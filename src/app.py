@@ -9,7 +9,6 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        # Aquí podrías validar credenciales
         return redirect(url_for("home"))
     return render_template("login.html")
 
@@ -20,7 +19,6 @@ def home():
 @app.route("/cuenta", methods=["GET", "POST"])
 def cuenta():
     if request.method == "POST":
-        # Procesar cambios de cuenta
         return redirect(url_for("home"))
     return render_template("cuenta.html")
 
@@ -37,9 +35,8 @@ def crear_cuenta():
         confirmar = request.form["confirmar"]
 
         if password != confirmar:
-            return "Las contraseñas no coinciden", 400
+            return render_template("crear_cuenta.html", error="Las contraseñas no coinciden")
 
-        # Aquí podrías guardar los datos
         return redirect(url_for("preguntas"))
     return render_template("crear_cuenta.html")
 
@@ -49,7 +46,6 @@ def preguntas():
         comida = request.form["comida"]
         restaurante = request.form["restaurante"]
         precio = request.form["precio"]
-        # Guardar preferencias si se desea
         return redirect(url_for("home"))
     return render_template("preguntas.html")
 
