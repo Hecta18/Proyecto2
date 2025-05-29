@@ -33,21 +33,19 @@ def crear_cuenta():
         nombre = request.form["nombre"]
         password = request.form["password"]
         confirmar = request.form["confirmar"]
+        comida = request.form["comida"]
+        restaurante = request.form["restaurante"]
+        precio = request.form["precio"]
 
         if password != confirmar:
             return render_template("crear_cuenta.html", error="Las contraseñas no coinciden")
 
-        return redirect(url_for("preguntas"))
+        # Aquí puedes guardar todos los datos en una base o archivo
+        print("Usuario registrado:", correo, nombre, comida, restaurante, precio)
+        return redirect(url_for("home"))
+
     return render_template("crear_cuenta.html")
 
-@app.route("/preguntas", methods=["GET", "POST"])
-def preguntas():
-    if request.method == "POST":
-        comida = request.form["comida"]
-        restaurante = request.form["restaurante"]
-        precio = request.form["precio"]
-        return redirect(url_for("home"))
-    return render_template("preguntas.html")
 
 @app.route("/pedido")
 def pedido():

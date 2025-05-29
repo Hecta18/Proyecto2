@@ -29,7 +29,8 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        select {
             width: 100%;
             padding: 8px;
             margin-top: 5px;
@@ -54,7 +55,7 @@
     <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">
         ⬅ Regresar
     </button>
-    
+
     <div class="ventana">
         <h2>Crear una cuenta</h2>
         <form method="POST" action="/crear_cuenta">
@@ -69,6 +70,32 @@
 
             <label for="confirmar">Confirmar contraseña:</label>
             <input type="password" id="confirmar" name="confirmar" required>
+
+            <hr style="margin: 20px 0;">
+
+            <label for="comida">Comida favorita:</label>
+            <select id="comida" name="comida">
+                <option>Tacos</option>
+                <option>Pizza</option>
+                <option>Sushi</option>
+                <option>Hamburguesa</option>
+            </select>
+
+            <label for="restaurante">Restaurante favorito:</label>
+            <select id="restaurante" name="restaurante">
+                <option>Don Taco</option>
+                <option>Pizza Hut</option>
+                <option>Sushitto</option>
+                <option>McDonald's</option>
+            </select>
+
+            <label for="precio">Rango de precios preferido:</label>
+            <select id="precio" name="precio">
+                <option>Q25 - Q50</option>
+                <option>Q50 - Q100</option>
+                <option>Q100 - Q200</option>
+                <option>Más de Q200</option>
+            </select>
 
             <button type="submit">Confirmar</button>
         </form>
