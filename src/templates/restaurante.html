@@ -1,53 +1,104 @@
-<!-- restaurante.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Restaurante - Taco-ntento</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .ventana {
+            border: 2px solid #888;
+            width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .titulo {
+            margin-bottom: 20px;
+        }
+
+        .imagen-principal {
+            width: 100%;
+            height: 150px;
+            background-color: #3a7bd5;
+            margin-bottom: 30px;
+        }
+
+        .plato {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .imagen-plato {
+            width: 100px;
+            height: 60px;
+            background-color: #3a7bd5;
+            margin-right: 20px;
+        }
+
+        .info {
+            flex-grow: 1;
+        }
+
+        .ordenar {
+            text-align: right;
+        }
+
+        .btn-ordenar {
+            background-color: #90ee90;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-ordenar:hover {
+            background-color: #76e076;
+        }
+    </style>
 </head>
 <body>
-    <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">
+    <button onclick="history.back()" style="margin-bottom: 20px; padding: 10px; font-weight: bold;">
         ⬅ Regresar
     </button>
+
     <div class="ventana">
         <div class="titulo">
             <h2>Nombre del Restaurante</h2>
-            <button class="btn-ordenar" onclick="alert('Pedido enviado')">Ordenar</button>
         </div>
 
-        <div class="descripcion">
-            <p>Este restaurante es uno de los más pedidos por los usuarios en Taco-ntento.</p>
+        <div class="imagen-principal">
+            <!-- imagen destacada -->
         </div>
 
-        <div class="recomendaciones">
-            Recomendaciones:
-        </div>
-
-        <div class="categoria">
-            <h3>Entradas</h3>
-            <div class="contenedor-cajas">
-                <div class="caja"></div>
-                <div class="caja"></div>
-                <div class="caja"></div>
+        <!-- Plato 1 -->
+        <div class="plato">
+            <div class="imagen-plato"></div>
+            <div class="info">
+                <p><strong>Nombre del Plato</strong></p>
+                <p>Descripción del producto</p>
+            </div>
+            <div class="ordenar">
+                <p><strong>Precio Q50</strong></p>
+                <button class="btn-ordenar">Ordenar</button>
             </div>
         </div>
 
-        <div class="categoria">
-            <h3>Platos Fuertes</h3>
-            <div class="contenedor-cajas">
-                <div class="caja"></div>
-                <div class="caja"></div>
-                <div class="caja"></div>
+        <!-- Plato 2 -->
+        <div class="plato">
+            <div class="imagen-plato"></div>
+            <div class="info">
+                <p><strong>Nombre del Plato</strong></p>
+                <p>Descripción del producto</p>
             </div>
-        </div>
-
-        <div class="categoria">
-            <h3>Postres</h3>
-            <div class="contenedor-cajas">
-                <div class="caja"></div>
-                <div class="caja"></div>
-                <div class="caja"></div>
+            <div class="ordenar">
+                <p><strong>Precio Q45</strong></p>
+                <button class="btn-ordenar">Ordenar</button>
             </div>
         </div>
     </div>

@@ -35,13 +35,13 @@ def crear_cuenta():
         confirmar = request.form["confirmar"]
         comida = request.form["comida"]
         restaurante = request.form["restaurante"]
-        precio = request.form["precio"]
+        
 
         if password != confirmar:
             return render_template("crear_cuenta.html", error="Las contraseñas no coinciden")
 
         # Aquí puedes guardar todos los datos en una base o archivo
-        print("Usuario registrado:", correo, nombre, comida, restaurante, precio)
+        print("Usuario registrado:", correo, nombre, comida, restaurante )
         return redirect(url_for("home"))
 
     return render_template("crear_cuenta.html")
