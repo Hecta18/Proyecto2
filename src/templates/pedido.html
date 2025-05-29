@@ -2,108 +2,36 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi pedido - Taco-ntento</title>
+    <title>Mi pedido</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 40px;
-        }
-
-        .ventana {
-            border: 2px solid #888;
-            width: 800px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        .pedido-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .imagen {
-            width: 100px;
-            height: 70px;
-            background-color: #3a7bd5;
-            margin-right: 20px;
-        }
-
-        .info {
-            flex-grow: 1;
-        }
-
-        .acciones {
-            text-align: right;
-        }
-
-        .acciones p {
-            font-weight: bold;
-        }
-
-        .acciones button {
-            margin-top: 10px;
-            padding: 8px 16px;
-        }
-
-        .total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        .total p {
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .botones-finales button {
-            margin-left: 10px;
-            padding: 10px 20px;
-        }
+        .ventana { max-width: 800px; margin: auto; padding: 20px; border: 2px solid #888; }
+        .pedido-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .pedido-item p { margin: 0; }
+        .eliminar-form button { background-color: #f55; border: none; padding: 6px 12px; font-weight: bold; cursor: pointer; }
+        .eliminar-form button:hover { background-color: #d33; }
     </style>
 </head>
 <body>
-    <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">
-        ⬅ Regresar
-    </button>
+    <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">⬅ Regresar</button>
 
     <div class="ventana">
         <h2>Mi pedido</h2>
 
-        <div class="pedido-item">
-            <div class="imagen"></div>
-            <div class="info">
-                <p><strong>Nombre del Plato</strong></p>
-                <p>Descripción del producto</p>
-            </div>
-            <div class="acciones">
-                <p>Precio Q50</p>
-                <button>Eliminar</button>
-            </div>
-        </div>
-
-        <div class="pedido-item">
-            <div class="imagen"></div>
-            <div class="info">
-                <p><strong>Nombre del Plato</strong></p>
-                <p>Descripción del producto</p>
-            </div>
-            <div class="acciones">
-                <p>Precio Q45</p>
-                <button>Eliminar</button>
-            </div>
-        </div>
-
-        <div class="total">
-            <p>Total: Q95</p>
-            <div class="botones-finales">
-                <button>Pago</button>
-                <button>Cancelar orden</button>
-            </div>
-        </div>
+        {% if carrito %}
+            {% for i in range(carrito|length) %}
+                <div class="pedido-item">
+                    <p><strong>{{ carrito[i].plato }}</strong> - Q{{ carrito[i].precio }}</p>
+                    <form method="POST" action="{{ url_for('eliminar_pedido', index=i) }}" class="eliminar-form">
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </div>
+            {% endfor %}
+            <hr>
+            <p><strong>Total:</strong> Q{{ total }}</p>
+        {% else %}
+            <p>No has agregado ningún plato aún.</p>
+        {% endif %}
     </div>
 </body>
 </html>
