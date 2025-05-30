@@ -2,11 +2,17 @@ from Neo4jConnection import Neo4jConnection
 from Functions import *
 from Queries import *
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+# Cargar variables de entorno desde un archivo .env
 
 # Configuración de conexión
 URI = "neo4j+s://33610e87.databases.neo4j.io"
 USER = "neo4j"
 PASSWORD = os.getenv("PASSWORD")
+if PASSWORD is None:
+    print("Error: PASSWORD environment variable is not set.")
 conn = Neo4jConnection(URI, USER, PASSWORD)
 
 def crear_usuario():
@@ -24,7 +30,7 @@ def crear_usuario():
         comida: '{comida}',
         restaurante: '{restaurante}',
         correo: '{correo}',
-        contraseña: '{hashed.decode()}'
+        contraseña: '{hashed}'
     }})
     RETURN u
     """
@@ -46,7 +52,7 @@ def iniciar_sesion():
     stored_hash = resultados[0]["pass"]
     nombre = resultados[0]["nombre"]
 
-    if check_password(stored_hash.encode(), password):
+    if check_password(stored_hash, password):
         print("Inicio de sesión exitoso.")
         return nombre
     else:
@@ -140,12 +146,18 @@ def main():
         opcion = input("Selecciona una opción: ")
 
         if opcion == "1":
-            nombre = crear_usuario()
-            menu_usuario(nombre)
-        elif opcion == "2":
-            nombre = iniciar_sesion()
-            if nombre:
+            try:
+                nombre = crear_usuario()
                 menu_usuario(nombre)
+            except Exception as e:
+                print(f"Error al crear usuario: {e}")
+        elif opcion == "2":
+            try:
+                nombre = iniciar_sesion()
+                if nombre:
+                    menu_usuario(nombre)
+            except Exception as e:
+                print(f"Error al iniciar sesión: {e}")
         elif opcion == "3":
             print("Gracias por usar la app.")
             break
