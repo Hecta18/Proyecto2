@@ -21,6 +21,7 @@ def crear_usuario():
     password = input("Contraseña: ")
     comida = input("Comida preferida: ")
     restaurante = input("Restaurante preferido: ")
+    perfil = input("Profesión: ")
 
     hashed = hash_password(password)
 
@@ -30,8 +31,10 @@ def crear_usuario():
         comida: '{comida}',
         restaurante: '{restaurante}',
         correo: '{correo}',
-        contraseña: '{hashed}'
+        contraseña: '{hashed}',
+        perfil: '{perfil}'
     }})
+    (u)-[:ES]->(p:Perfil {{nombre: '{perfil}'}})
     RETURN u
     """
     queryWithoutResults(conn, query)
@@ -102,16 +105,16 @@ def ver_recomendaciones(nombre):
     LIMIT 5
     """
 
-    print("🔍 Recomendaciones basadas en feedback explícito:")
+    print("Recomendaciones basadas en feedback explícito:")
     print(queryWithResults(conn, explicit, 'sugerido.nombre'))
 
-    print("🔍 Recomendaciones basadas en contenido:")
+    print("Recomendaciones basadas en contenido:")
     print(queryWithResults(conn, content, 'r.nombre'))
 
-    print("🔍 Recomendaciones basadas en perfil:")
+    print("Recomendaciones basadas en perfil:")
     print(queryWithResults(conn, profile, 'r.nombre'))
 
-    print("🔍 Recomendación híbrida:")
+    print("Recomendación híbrida:")
     hibridas = hibridRecommendation(explicit, content, profile, conn)
     for r in hibridas:
         print(f"- {r['r.nombre']}")
