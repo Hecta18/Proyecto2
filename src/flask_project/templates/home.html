@@ -11,11 +11,18 @@
         <div class="barra">
             <button onclick="location.href='{{ url_for('cuenta') }}'">Mi cuenta</button>
             <button onclick="location.href='{{ url_for('pedido') }}'">Mi pedido</button>
-            <span style="margin-left: auto;">
-                ¿Algo nuevo?
-                <input type="text" placeholder="Search">
-                <button>Filtros ▼</button>
-            </span>
+            <form method="POST" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+    <input type="text" name="busqueda" placeholder="Buscar restaurante" value="{{ texto_busqueda }}">
+    <select name="tipo_comida">
+        <option {% if tipo_seleccionado == 'Todos' %}selected{% endif %}>Todos</option>
+        <option {% if tipo_seleccionado == 'Hamburguesas' %}selected{% endif %}>Hamburguesas</option>
+        <option {% if tipo_seleccionado == 'Pizza' %}selected{% endif %}>Pizza</option>
+        <option {% if tipo_seleccionado == 'Sushi' %}selected{% endif %}>Sushi</option>
+        <option {% if tipo_seleccionado == 'Sandwich' %}selected{% endif %}>Sandwich</option>
+    </select>
+    <button type="submit">Buscar</button>
+</form>
+
         </div>
 
 <form method="POST" style="margin: 20px 0;">

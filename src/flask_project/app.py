@@ -49,7 +49,7 @@ def crear_cuenta():
         if password != confirmar:
             error = "La contraseña no coincide"
         else:
-            return redirect(url_for("cuenta"))
+            return redirect(url_for("home"))
 
     return render_template("crear_cuenta.html", error=error)
 
@@ -62,22 +62,31 @@ def login():
 @app.route("/home", methods=["GET", "POST"])
 def home():
     todos_restaurantes = [
-        {"nombre": "Burger King", "imagen": "https://www.pngall.com/wp-content/uploads/13/Burger-King-Logo-PNG-Clipart.png"},
-        {"nombre": "Pizza Hut", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Pizza-Hut-Logo-1999.jpg"},
-        {"nombre": "Sushi Itto", "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEX4IpoSFlx0lmkGB4w5W1IY3XKC81wPW9Mw&s"},
-        {"nombre": "Domino's", "imagen": "https://prestonchamber.org/wp-content/uploads/2024/06/dominos.png"},
-        {"nombre": "Subway", "imagen": "https://m.media-amazon.com/images/G/01/AdProductsWebsite/images/CaseStudies/Subway_-_Thumbnail.jpg"},
-        {"nombre": "KFC", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/KFC-logo.png"},
-        {"nombre": "Taco Bell", "imagen": "https://cdn.worldvectorlogo.com/logos/taco-bell-7.svg"},
-        {"nombre": "Wendy's", "imagen": "https://cdn.worldvectorlogo.com/logos/wendys-1.svg"},
-        {"nombre": "McDonald's", "imagen": "https://1000marcas.net/wp-content/uploads/2019/11/McDonalds-logo.png"}
+        {"nombre": "Burger King", "imagen": "https://www.pngall.com/wp-content/uploads/13/Burger-King-Logo-PNG-Clipart.png", "tipo": "Hamburguesas"},
+        {"nombre": "Pizza Hut", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Pizza-Hut-Logo-1999.jpg", "tipo": "Pizza"},
+        {"nombre": "Sushi Itto", "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEX4IpoSFlx0lmkGB4w5W1IY3XKC81wPW9Mw&s", "tipo": "Sushi"},
+        {"nombre": "Domino's", "imagen": "https://prestonchamber.org/wp-content/uploads/2024/06/dominos.png", "tipo": "Pizza"},
+        {"nombre": "Subway", "imagen": "https://m.media-amazon.com/images/G/01/AdProductsWebsite/images/CaseStudies/Subway_-_Thumbnail.jpg", "tipo": "Sandwich"},
+        {"nombre": "KFC", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/KFC-logo.png", "tipo": "Hamburguesas"},
+        {"nombre": "Taco Bell", "imagen": "https://cdn.worldvectorlogo.com/logos/taco-bell-7.svg", "tipo": "Hamburguesas"},
+        {"nombre": "Wendy's", "imagen": "https://cdn.worldvectorlogo.com/logos/wendys-1.svg", "tipo": "Hamburguesas"},
+        {"nombre": "McDonald's", "imagen": "https://1000marcas.net/wp-content/uploads/2019/11/McDonalds-logo.png", "tipo": "Hamburguesas"},
     ]
     tipo = request.form.get("tipo_comida")
+    buscar = request.form.get("busqueda")
+    
 
+        # Aplica filtro por tipo
+    restaurantes_filtrados = todos_restaurantes
     if tipo and tipo != "Todos":
-        restaurantes = [r for r in todos_restaurantes if r["tipo"] == tipo]
-    else:
-        restaurantes = todos_restaurantes
+        restaurantes_filtrados = [r for r in restaurantes_filtrados if r.get("tipo") == tipo]
+
+    # Aplica filtro por texto
+    if buscar:
+        buscar_lower = buscar.lower()
+        restaurantes_filtrados = [r for r in restaurantes_filtrados if buscar_lower in r["nombre"].lower()]
+
+    return render_template("home.html", restaurantes=restaurantes_filtrados, tipo_seleccionado=tipo or "Todos", texto_busqueda=buscar or "")
 
     return render_template("home.html", restaurantes=restaurantes, tipo_seleccionado=tipo)
 @app.route("/cuenta", methods=["GET", "POST"])
