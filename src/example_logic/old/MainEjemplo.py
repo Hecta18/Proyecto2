@@ -20,7 +20,7 @@ except Exception as e:
     exit(1)
 
 # Importar funciones y consultas
-from Queries import (
+from example_logic.old.Queries import (
     create_usuario,
     create_restaurant,
     create_perfil,

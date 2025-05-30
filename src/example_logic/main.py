@@ -1,6 +1,6 @@
 from Neo4jConnection import Neo4jConnection
 from Functions import *
-from Queries import *
+from example_logic.old.Queries import *
 import os
 from dotenv import load_dotenv
 
