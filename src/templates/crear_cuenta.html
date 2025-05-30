@@ -95,10 +95,10 @@
         </form>
     </div>
 
-    {% if error %}
-    <script>
-        alert("{{ error }}");
-    </script>
-    {% endif %}
+   
+{% if error %}
+<p style="color: red; font-weight: bold; margin-top: 5px;">{{ error }}</p>
+{% endif %}
+
 </body>
 </html>
