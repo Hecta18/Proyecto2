@@ -18,38 +18,27 @@
     <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">⬅ Regresar</button>
 
     <div class="ventana">
-        <h2>Nombre del Restaurante</h2>
+        <h2>{{ restaurante.nombre }}</h2>
 
-        <!-- Plato 1 -->
-        <div class="plato">
-            <div class="imagen-plato"></div>
-            <div class="info">
-                <p><strong>Taco al Pastor</strong></p>
-                <p>Delicioso taco con carne de cerdo marinada</p>
-            </div>
-            <div class="ordenar">
-                <form method="POST" action="{{ url_for('agregar_pedido') }}">
-                    <input type="hidden" name="plato" value="Taco al Pastor">
-                    <input type="hidden" name="precio" value="35">
-                    <button type="submit" class="btn-ordenar">Ordenar</button>
-                </form>
-            </div>
-        </div>
+{% for plato in restaurante.platos %}
+<div class="plato">
+    <div class="imagen-plato"></div>
+    <div class="info">
+        <p><strong>{{ plato.nombre }}</strong></p>
+        <p>{{ plato.descripcion }}</p>
+        <p>Precio: Q{{ plato.precio }}</p>
 
-        <!-- Plato 2 -->
-        <div class="plato">
-            <div class="imagen-plato"></div>
-            <div class="info">
-                <p><strong>Burrito de Carne</strong></p>
-                <p>Burrito grande con carne, arroz y frijoles</p>
-            </div>
-            <div class="ordenar">
-                <form method="POST" action="{{ url_for('agregar_pedido') }}">
-                    <input type="hidden" name="plato" value="Burrito de Carne">
-                    <input type="hidden" name="precio" value="45">
-                    <button type="submit" class="btn-ordenar">Ordenar</button>
-                </form>
-            </div>
+    </div>
+    <div class="ordenar">
+        <form method="POST" action="{{ url_for('agregar_pedido') }}">
+            <input type="hidden" name="plato" value="{{ plato.nombre }}">
+            <input type="hidden" name="precio" value="{{ plato.precio }}">
+            <button type="submit" class="btn-ordenar">Ordenar</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+
         </div>
     </div>
 </body>

@@ -1,25 +1,124 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
+
 app.secret_key = "clave_secreta"
 # Configuración de la clave secreta para la sesión
+todos_restaurantes = [
+    {
+        "nombre": "Burger King",
+        "imagen": "https://www.pngall.com/wp-content/uploads/13/Burger-King-Logo-PNG-Clipart.png",
+        "tipo": "Hamburguesas",
+        "platos": [
+            {"nombre": "Whopper", "descripcion": "Hamburguesa con carne a la parrilla", "precio": 35},
+            {"nombre": "Papas grandes", "descripcion": "Papas fritas crujientes", "precio": 18}
+        ]
+    },
+    {
+        "nombre": "Pizza Hut",
+        "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Pizza-Hut-Logo-1999.jpg",
+        "tipo": "Pizza",
+        "platos": [
+            {"nombre": "Pizza Suprema", "descripcion": "Pizza con todo", "precio": 50},
+            {"nombre": "Pan de ajo", "descripcion": "Pan con mantequilla y ajo", "precio": 15}
+        ]
+    },
+    {
+        "nombre": "Sushi Itto",
+        "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEX4IpoSFlx0lmkGB4w5W1IY3XKC81wPW9Mw&s",
+        "tipo": "Sushi",
+        "platos": [
+            {"nombre": "Sushi variado", "descripcion": "Selección de sushi fresco", "precio": 60},
+            {"nombre": "Rollos de atún", "descripcion": "Rollos de atún con aguacate", "precio": 45}
+        ]
+    },
+    {
+        "nombre": "Domino's",
+        "imagen": "https://prestonchamber.org/wp-content/uploads/2024/06/dominos.png",
+        "tipo": "Pizza",
+        "platos": [
+            {"nombre": "Margarita", "descripcion": "Pizza clásica con tomate y queso", "precio": 40},
+            {"nombre": "Pepperoni", "descripcion": "Pizza con rodajas de pepperoni", "precio": 45}
+        ]
+    },
+    {
+        "nombre": "Subway",
+        "imagen": "https://m.media-amazon.com/images/G/01/AdProductsWebsite/images/CaseStudies/Subway_-_Thumbnail.jpg",
+        "tipo": "Sandwich",
+        "platos": [
+            {"nombre": "Sub de pollo", "descripcion": "Sándwich de pollo a la parrilla", "precio": 30},
+            {"nombre": "Sub vegetariano", "descripcion": "Sándwich con vegetales frescos", "precio": 25}
+        ]
+    },
+    {
+        "nombre": "KFC",
+        "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/KFC-logo.png",
+        "tipo": "Hamburguesas",
+        "platos": [
+            {"nombre": "Pollo frito", "descripcion": "Pollo frito crujiente", "precio": 50},
+            {"nombre": "Tiras de pollo", "descripcion": "Tiras de pollo empanizadas", "precio": 35}
+        ]
+    },
+    {
+        "nombre": "Taco Bell",
+        "imagen": "https://cdn.worldvectorlogo.com/logos/taco-bell-7.svg",
+        "tipo": "Hamburguesas",
+        "platos": [
+            {"nombre": "Tacos al pastor", "descripcion": "Tacos con carne al pastor", "precio": 20},
+            {"nombre": "Burrito grande", "descripcion": "Burrito relleno de frijoles y carne", "precio": 30}
+        ]
+    },
+    {
+        "nombre": "Wendy's",
+        "imagen": "https://cdn.worldvectorlogo.com/logos/wendys-1.svg",
+        "tipo": "Hamburguesas",
+        "platos": [
+            {"nombre": 'Hamburguesa clásica', "descripcion": "Hamburguesa con lechuga y tomate", "precio": 28},
+            {"nombre": "Papas fritas", "descripcion": "Papas fritas crujientes", "precio": 15}
+        ]
+    },
+    {
+        "nombre": "McDonald's",
+        "imagen": "https://1000marcas.net/wp-content/uploads/2019/11/McDonalds-logo.png",
+        "tipo": "Hamburguesas",
+        "platos": [
+            {"nombre": "Big Mac", "descripcion": "Hamburguesa con dos carnes y salsa especial", "precio": 40},
+            {"nombre": "McFlurry", "descripcion": "Postre helado con trozos de chocolate", "precio": 20}
+        ]
+    },
+]
 
 @app.route("/")
 def index():
     return render_template("index.html")
-# Ruta principal que renderiza la plantilla index.html
 
-@app.route("/restaurante")
-def restaurante():
-    return render_template("restaurante.html")
-# Ruta que renderiza la plantilla restaurante.html 
+@app.route("/home", methods=["GET", "POST"])
+def home():
+    tipo = request.form.get("tipo_comida")
+    buscar = request.form.get("busqueda")
 
+    restaurantes_filtrados = todos_restaurantes
+
+    if tipo and tipo != "Todos":
+        restaurantes_filtrados = [r for r in restaurantes_filtrados if r.get("tipo") == tipo]
+
+    if buscar:
+        buscar_lower = buscar.lower()
+        restaurantes_filtrados = [r for r in restaurantes_filtrados if buscar_lower in r["nombre"].lower()]
+
+    return render_template("home.html", restaurantes=restaurantes_filtrados, tipo_seleccionado=tipo or "Todos", texto_busqueda=buscar or "")
+
+@app.route("/restaurante/<nombre>")
+def restaurante(nombre):
+    restaurante = next((r for r in todos_restaurantes if r["nombre"] == nombre), None)
+    if not restaurante:
+        return "Restaurante no encontrado", 404
+    return render_template("restaurante.html", restaurante=restaurante)
 
 @app.route("/agregar_pedido", methods=["POST"])
 def agregar_pedido():
     plato = request.form["plato"]
     precio = float(request.form["precio"])
-
 
     if "carrito" not in session:
         session["carrito"] = []
@@ -28,9 +127,6 @@ def agregar_pedido():
     session.modified = True
 
     return redirect(url_for("pedido"))
-# Ruta para agregar un pedido al carrito, recibe datos del formulario y los agrega 
-# a la sesión. Si no hay carrito en la sesión, lo crea y luego redirige a la 
-# página de pedido
 
 @app.route("/pedido")
 def pedido():
@@ -67,36 +163,6 @@ def login():
         return redirect(url_for("home"))
     return render_template("login.html")
 
-@app.route("/home", methods=["GET", "POST"])
-def home():
-    todos_restaurantes = [
-        {"nombre": "Burger King", "imagen": "https://www.pngall.com/wp-content/uploads/13/Burger-King-Logo-PNG-Clipart.png", "tipo": "Hamburguesas"},
-        {"nombre": "Pizza Hut", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Pizza-Hut-Logo-1999.jpg", "tipo": "Pizza"},
-        {"nombre": "Sushi Itto", "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEX4IpoSFlx0lmkGB4w5W1IY3XKC81wPW9Mw&s", "tipo": "Sushi"},
-        {"nombre": "Domino's", "imagen": "https://prestonchamber.org/wp-content/uploads/2024/06/dominos.png", "tipo": "Pizza"},
-        {"nombre": "Subway", "imagen": "https://m.media-amazon.com/images/G/01/AdProductsWebsite/images/CaseStudies/Subway_-_Thumbnail.jpg", "tipo": "Sandwich"},
-        {"nombre": "KFC", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/KFC-logo.png", "tipo": "Hamburguesas"},
-        {"nombre": "Taco Bell", "imagen": "https://cdn.worldvectorlogo.com/logos/taco-bell-7.svg", "tipo": "Hamburguesas"},
-        {"nombre": "Wendy's", "imagen": "https://cdn.worldvectorlogo.com/logos/wendys-1.svg", "tipo": "Hamburguesas"},
-        {"nombre": "McDonald's", "imagen": "https://1000marcas.net/wp-content/uploads/2019/11/McDonalds-logo.png", "tipo": "Hamburguesas"},
-    ]
-    tipo = request.form.get("tipo_comida")
-    buscar = request.form.get("busqueda")
-    
-
-        # Aplica filtro por tipo
-    restaurantes_filtrados = todos_restaurantes
-    if tipo and tipo != "Todos":
-        restaurantes_filtrados = [r for r in restaurantes_filtrados if r.get("tipo") == tipo]
-
-    # Aplica filtro por texto
-    if buscar:
-        buscar_lower = buscar.lower()
-        restaurantes_filtrados = [r for r in restaurantes_filtrados if buscar_lower in r["nombre"].lower()]
-
-    return render_template("home.html", restaurantes=restaurantes_filtrados, tipo_seleccionado=tipo or "Todos", texto_busqueda=buscar or "")
-
-    return render_template("home.html", restaurantes=restaurantes, tipo_seleccionado=tipo)
 @app.route("/cuenta", methods=["GET", "POST"])
 def cuenta():
     if request.method == "POST":
