@@ -1,5 +1,5 @@
 #modulo de funciones
-from MainEjemplo import login, hashed_password
+import bcrypt
 
 #hashear contraseña
 def hash_password(password):
@@ -11,11 +11,6 @@ def hash_password(password):
 #verificar contraseña
 def check_password(stored_hash, password):
     return bcrypt.checkpw(password.encode('utf-8'), stored_hash)
-
-#login con chequeo de contraseña
-def login_withCheck(conn, contraseña, query=hashed_password):
-    if check_password(queryWithResults(conn, query, 'u'), contraseña) == True:
-            print(queryWithoutResults(conn, login, 'u'))
         
 #ejecutar consulta
 def queryWithoutResults(conn, query):
@@ -49,4 +44,3 @@ def hibridRecommendation(query1, query2, query3, conn):
     resultados3 = conn.run_query(query3)
     # Retornar resultados repetidos
     return resultados_comunes(resultados1, resultados2, resultados3)
-    
