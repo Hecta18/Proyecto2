@@ -1,10 +1,8 @@
 from Neo4jConnection import Neo4jConnection 
-from Functions import *
-from Queries import *
-from neo4j import GraphDatabase
+# from neo4j import GraphDatabase
 import os
 from dotenv import load_dotenv
-import bcrypt
+# import bcrypt
 
 load_dotenv()  
 # Cargar variables de entorno desde un archivo .env
@@ -16,25 +14,11 @@ USER = "neo4j"
 PASSWORD = os.getenv("PASSWORD")
 # metodo con archivo .env
 
-# Datos usuario
-nombre_usuario = 'Pedro'
-correo = 'email@email.com'
-contraseña = '123456' # Implementar seguridad
-comida_preferida = 'Hamburguesas'
-restaurante_preferido = 'Burger King'
-
-# Datos restaurante
-nombre_restaurante = 'Burger King'
-tipo_restaurante = 'Hamburguesas'
-calificacion_restaurante = 4.5
-
-# Datos perfil
-nombre_perfil = 'Influencer'
-calificacion_recomendacion = 4.0
-
 # Crear conexión
 conn = Neo4jConnection(URI, USER, PASSWORD)
 
+# from Functions import *
+from Queries import *
 # Ejecutar consultas
 try:
     print(queryWithResults(conn, create_usuario, 'u'))

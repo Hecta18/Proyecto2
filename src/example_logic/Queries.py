@@ -1,6 +1,25 @@
+from Functions import *
+
+# Datos usuario
+nombre_usuario = 'Pedro'
+correo = 'email@email.com'
+contraseña = '123456' # Implementar seguridad
+comida_preferida = 'Hamburguesas'
+restaurante_preferido = 'Burger King'
+
+# Datos restaurante
+nombre_restaurante = 'Burger King'
+tipo_restaurante = 'Hamburguesas'
+calificacion_restaurante = 4.5
+
+# Datos perfil
+nombre_perfil = 'Influencer'
+calificacion_recomendacion = 4.0
+
 # queries
+from Functions import hash_password
 create_usuario = """
-CREATE (u:Usuario {nombre: '""" + nombre_usuario + """', comida: '""" + comida_preferida + """', restaurante: '""" + restaurante_preferido + """', correo: '""" + correo + """', contraseña: '""" + hash_password(contraseña) + """'})
+CREATE (u:Usuario {nombre: '""" + nombre_usuario + """', comida: '""" + comida_preferida + """', restaurante: '""" + restaurante_preferido + """', correo: '""" + correo + """', contraseña: '""" + str(hash_password(contraseña)) + """'})
 RETURN u
 """
 create_restaurant = """
@@ -59,3 +78,9 @@ WHERE r.calificacion >= p.calificacion
 RETURN r.nombre
 LIMIT 5
 """
+
+# Funciones de queries
+#login con chequeo de contraseña
+def login_withCheck(conn, contraseña, query=hashed_password):
+    if check_password(queryWithResults(conn, query, 'u'), contraseña) == True:
+            print(queryWithoutResults(conn, login, 'u'))
