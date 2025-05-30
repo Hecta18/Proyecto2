@@ -1,10 +1,8 @@
 from Neo4jConnection import Neo4jConnection 
-# from neo4j import GraphDatabase
 import os
 from dotenv import load_dotenv
-# import bcrypt
 
-load_dotenv()  
+load_dotenv()
 # Cargar variables de entorno desde un archivo .env
 
 # Cambiar datos según configuración
@@ -15,10 +13,31 @@ PASSWORD = os.getenv("PASSWORD")
 # metodo con archivo .env
 
 # Crear conexión
-conn = Neo4jConnection(URI, USER, PASSWORD)
+try:
+    conn = Neo4jConnection(URI, USER, PASSWORD)
+except Exception as e:
+    print(f"Error al conectar a la base de datos: {e}")
+    exit(1)
 
-# from Functions import *
-from Queries import *
+# Importar funciones y consultas
+from Queries import (
+    create_usuario,
+    create_restaurant,
+    create_perfil,
+    create_relation_order,
+    create_relation_be,
+    login_withCheck,
+    queryWithResults,
+    queryWithoutResults,
+    explicit_feedback_based,
+    content_based,
+    profile_based,
+    hibridRecommendation
+)
+
+# Define 'contraseña' variable with a test value or fetch from input/env
+contraseña = os.getenv("CONTRASENA", "test_password")
+
 # Ejecutar consultas
 try:
     print(queryWithResults(conn, create_usuario, 'u'))
@@ -28,10 +47,10 @@ try:
     print(queryWithoutResults(conn, create_relation_be))
     # login
     print(login_withCheck(conn, contraseña))
-    # print(queryWithResults(conn, explicit_feedback_based))
-    # print(queryWithResults(conn, content_based))
-    # print(queryWithResults(conn, profile_based))
-    # print(hibridRecommendation(explicit_feedback_based, content_based, profile_based, conn))
+    print(queryWithResults(conn, explicit_feedback_based))
+    print(queryWithResults(conn, content_based))
+    print(queryWithResults(conn, profile_based))
+    print(hibridRecommendation(explicit_feedback_based, content_based, profile_based, conn))
 except Exception as e:
     print(f"Error al ejecutar las consultas: {e}")
 # Cerrar conexión

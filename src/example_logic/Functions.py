@@ -6,11 +6,12 @@ def hash_password(password):
     # Genera salt(valor aleatorio) y hashea
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
-    return hashed
+    return hashed.decode('utf-8')  # Devuelve el hash como string
 
 #verificar contraseña
 def check_password(stored_hash, password):
-    return bcrypt.checkpw(password.encode('utf-8'), stored_hash)
+    # Convierte el hash almacenado a bytes antes de verificar
+    return bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8'))
         
 #ejecutar consulta
 def queryWithoutResults(conn, query):
