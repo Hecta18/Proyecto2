@@ -7,9 +7,21 @@ app.secret_key = "clave_secreta"
 def index():
     return render_template("index.html")
 
-@app.route("/restaurante")
-def restaurante():
-    return render_template("restaurante.html")
+@app.route("/home")
+def home():
+    restaurantes = [
+        {"nombre": "Burger King", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Burger-King-Logo.png"},
+        {"nombre": "Pizza Hut", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Pizza-Hut-Logo.png"},
+        {"nombre": "Sushi Itto", "imagen": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Sushi_Itto_logo.png"},
+        {"nombre": "Domino's", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Dominos-Logo.png"},
+        {"nombre": "Subway", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Subway-Logo.png"},
+        {"nombre": "KFC", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/KFC-Logo.png"},
+        {"nombre": "Taco Bell", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Taco-Bell-Logo.png"},
+        {"nombre": "Wendy's", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Wendys-Logo.png"},
+        {"nombre": "Popeyes", "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Popeyes-Logo.png"}
+    ]
+    return render_template("home.html", restaurantes=restaurantes)
+
 
 @app.route("/agregar_pedido", methods=["POST"])
 def agregar_pedido():
