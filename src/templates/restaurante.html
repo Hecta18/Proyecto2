@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurante - Taco-ntento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .ventana { max-width: 800px; margin: auto; padding: 20px; border: 2px solid #888; }
+        .plato { display: flex; align-items: center; margin-bottom: 20px; }
+        .imagen-plato { width: 100px; height: 60px; background-color: #3a7bd5; margin-right: 20px; }
+        .info { flex-grow: 1; }
+        .ordenar { text-align: right; }
+        .btn-ordenar { background-color: #90ee90; border: none; padding: 10px 15px; font-weight: bold; cursor: pointer; }
+        .btn-ordenar:hover { background-color: #76e076; }
+    </style>
+</head>
+<body>
+    <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">⬅ Regresar</button>
+
+    <div class="ventana">
+        <h2>Nombre del Restaurante</h2>
+
+        <!-- Plato 1 -->
+        <div class="plato">
+            <div class="imagen-plato"></div>
+            <div class="info">
+                <p><strong>Taco al Pastor</strong></p>
+                <p>Delicioso taco con carne de cerdo marinada</p>
+            </div>
+            <div class="ordenar">
+                <form method="POST" action="{{ url_for('agregar_pedido') }}">
+                    <input type="hidden" name="plato" value="Taco al Pastor">
+                    <input type="hidden" name="precio" value="35">
+                    <button type="submit" class="btn-ordenar">Ordenar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Plato 2 -->
+        <div class="plato">
+            <div class="imagen-plato"></div>
+            <div class="info">
+                <p><strong>Burrito de Carne</strong></p>
+                <p>Burrito grande con carne, arroz y frijoles</p>
+            </div>
+            <div class="ordenar">
+                <form method="POST" action="{{ url_for('agregar_pedido') }}">
+                    <input type="hidden" name="plato" value="Burrito de Carne">
+                    <input type="hidden" name="precio" value="45">
+                    <button type="submit" class="btn-ordenar">Ordenar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

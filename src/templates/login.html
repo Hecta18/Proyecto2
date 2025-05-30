@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio de sesión - Taco-ntento</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        .ventana {
+            border: 2px solid #888;
+            width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .imagen-circular {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #3a7bd5;
+            margin-right: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"] {
+            padding: 8px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background-color: #ccc;
+            border: 1px solid #333;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="history.back()" style="margin: 20px; padding: 10px; font-weight: bold;">
+        ⬅ Regresar
+    </button>
+    
+    <div class="ventana">
+        <div class="imagen-circular"></div>
+        <form method="POST" action="/login">
+            <label for="email">Correo electrónico:</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+</body>
+</html>
