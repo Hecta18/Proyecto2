@@ -41,7 +41,7 @@ CREATE (u)-[:ES]->(p)
 RETURN u, p
 """
 login = """
-MATCH (u:Usuario {correo: '""" + correo + """', contraseña: '""" + contraseña + """'})
+MATCH (u:Usuario {correo: '""" + correo + """'})
 RETURN u
 """
 hashed_password = """
@@ -82,5 +82,6 @@ LIMIT 5
 # Funciones de queries
 #login con chequeo de contraseña
 def login_withCheck(conn, contraseña, query=hashed_password):
-    if check_password(queryWithResults(conn, query, 'u'), contraseña) == True:
-            print(queryWithoutResults(conn, login, 'u'))
+    hashed = queryWithResults(conn, query, 'u')
+    if check_password(hashed, contraseña):
+        print(queryWithoutResults(conn, login, 'u'))

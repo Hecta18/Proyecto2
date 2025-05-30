@@ -2,19 +2,24 @@ from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
+# Configuración de la clave secreta para la sesión
 
 @app.route("/")
 def index():
     return render_template("index.html")
+# Ruta principal que renderiza la plantilla index.html
 
 @app.route("/restaurante")
 def restaurante():
     return render_template("restaurante.html")
+# Ruta que renderiza la plantilla restaurante.html 
+
 
 @app.route("/agregar_pedido", methods=["POST"])
 def agregar_pedido():
     plato = request.form["plato"]
     precio = float(request.form["precio"])
+
 
     if "carrito" not in session:
         session["carrito"] = []
@@ -23,6 +28,9 @@ def agregar_pedido():
     session.modified = True
 
     return redirect(url_for("pedido"))
+# Ruta para agregar un pedido al carrito, recibe datos del formulario y los agrega 
+# a la sesión. Si no hay carrito en la sesión, lo crea y luego redirige a la 
+# página de pedido
 
 @app.route("/pedido")
 def pedido():
@@ -94,7 +102,6 @@ def cuenta():
     if request.method == "POST":
         return redirect(url_for("home"))
     return render_template("cuenta.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True)
