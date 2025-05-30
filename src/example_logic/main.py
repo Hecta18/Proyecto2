@@ -21,17 +21,20 @@ def crear_usuario():
     password = input("Contraseña: ")
     comida = input("Comida preferida: ")
     restaurante = input("Restaurante preferido: ")
+    perfil = input("Profesión: ")
 
     hashed = hash_password(password)
 
     query = f"""
-    CREATE (u:Usuario {{
+    CREATE (u:Usuarios.csv {{
         nombre: '{nombre}',
         comida: '{comida}',
         restaurante: '{restaurante}',
         correo: '{correo}',
-        contraseña: '{hashed}'
+        contraseña: '{hashed}',
+        perfil: '{perfil}'
     }})
+    (u)-[:ES]->(p:Perfiles.csv {{nombre: '{perfil}'}})
     RETURN u
     """
     queryWithoutResults(conn, query)
@@ -42,7 +45,7 @@ def iniciar_sesion():
     correo = input("Correo: ")
     password = input("Contraseña: ")
 
-    query = f"MATCH (u:Usuario {{correo: '{correo}'}}) RETURN u.nombre AS nombre, u.contraseña AS pass"
+    query = f"MATCH (u:Usuarios.csv {{correo: '{correo}'}}) RETURN u.nombre AS nombre, u.contraseña AS pass"
     resultados = conn.run_query(query)
 
     if not resultados:
@@ -62,7 +65,7 @@ def iniciar_sesion():
 def hacer_pedido(nombre):
     restaurante = input("Nombre del restaurante al que quieres pedir: ")
     query = f"""
-    MATCH (u:Usuario {{nombre: '{nombre}'}}), (r:Restaurante {{nombre: '{restaurante}'}})
+    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}}), (r:Restaurantes.csv {{nombre: '{restaurante}'}})
     CREATE (u)-[:PEDIR]->(r)
     RETURN u, r
     """
@@ -73,7 +76,7 @@ def alterar_datos(nombre):
     nuevo_restaurante = input("Nuevo restaurante favorito: ")
     nueva_comida = input("Nueva comida preferida: ")
     query = f"""
-    MATCH (u:Usuario {{nombre: '{nombre}'}})
+    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})
     SET u.restaurante = '{nuevo_restaurante}', u.comida = '{nueva_comida}'
     RETURN u
     """
@@ -82,36 +85,36 @@ def alterar_datos(nombre):
 
 def ver_recomendaciones(nombre):
     explicit = f"""
-    MATCH (u:Usuario {{nombre: '{nombre}'}})-[:PEDIR]->(r:Restaurante)<-[:PEDIR]-(otro:Usuario)-[:PEDIR]->(sugerido:Restaurante)
+    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})-[:PEDIR]->(r:Restaurantes.csv)<-[:PEDIR]-(otro:Usuarios.csv)-[:PEDIR]->(sugerido:Restaurantes.csv)
     WHERE NOT (u)-[:PEDIR]->(sugerido)
     RETURN sugerido.nombre
     LIMIT 5
     """
     content = f"""
-    MATCH (u:Usuario {{nombre: '{nombre}'}})
-    MATCH (r:Restaurante)
+    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})
+    MATCH (r:Restaurantes.csv)
     WHERE r.tipo CONTAINS u.comida AND r.calificacion >= 4.0
     RETURN r.nombre
     LIMIT 5
     """
     profile = f"""
-    MATCH (u:Usuario {{nombre: '{nombre}'}})-[:ES]->(p:Perfil)
-    MATCH (r:Restaurante)
+    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})-[:ES]->(p:Perfiles.csv)
+    MATCH (r:Restaurantes.csv)
     WHERE r.calificacion >= p.calificacion
     RETURN r.nombre
     LIMIT 5
     """
 
-    print("🔍 Recomendaciones basadas en feedback explícito:")
+    print("Recomendaciones basadas en feedback explícito:")
     print(queryWithResults(conn, explicit, 'sugerido.nombre'))
 
-    print("🔍 Recomendaciones basadas en contenido:")
+    print("Recomendaciones basadas en contenido:")
     print(queryWithResults(conn, content, 'r.nombre'))
 
-    print("🔍 Recomendaciones basadas en perfil:")
+    print("Recomendaciones basadas en perfil:")
     print(queryWithResults(conn, profile, 'r.nombre'))
 
-    print("🔍 Recomendación híbrida:")
+    print("Recomendación híbrida:")
     hibridas = hibridRecommendation(explicit, content, profile, conn)
     for r in hibridas:
         print(f"- {r['r.nombre']}")

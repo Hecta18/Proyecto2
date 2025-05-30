@@ -1,4 +1,4 @@
-N;Restaurante ;Tipo ;Calificacion 
+N;nombre ;tipo ;calificacion 
 1;Burger King;Hamburguesa;3
 2;Mc Donalds;Hamburguesa ;4
 3;Pizza Hut;Pizza;4
