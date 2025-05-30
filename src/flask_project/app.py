@@ -61,7 +61,28 @@ def login():
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    restaurantes = [
+        {
+            "nombre": "Burger King",
+            "imagen": "https://i.ytimg.com/vi/dl2cuK5eahM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLByczZK5avV920IHrsKmKUyk_Ut3A"
+        },
+        {
+            "nombre": "Pizza Hut",
+            "imagen": "https://1000marcas.net/wp-content/uploads/2020/01/Pizza-Hut-Logo-1999.jpg"
+        },
+        {
+            "nombre": "Sushi Itto",
+            "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEX4IpoSFlx0lmkGB4w5W1IY3XKC81wPW9Mw&s"
+        },
+        {
+            "nombre": "Little Caesars",
+            "imagen": "https://centranorte.com.gt/wp-content/uploads/2023/06/little-caesars.jpg"
+        },
+        
+        
+    ]
+    return render_template("home.html", restaurantes=restaurantes)
+
 
 @app.route("/cuenta", methods=["GET", "POST"])
 def cuenta():
