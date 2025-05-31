@@ -1,6 +1,5 @@
 from Neo4jConnection import Neo4jConnection
 from Functions import *
-from example_logic.old.Queries import *
 import os
 from dotenv import load_dotenv
 
@@ -26,7 +25,7 @@ def crear_usuario():
     hashed = hash_password(password)
 
     query = f"""
-    CREATE (u:Usuarios.csv {{
+    CREATE (u:Usuarios {{
         nombre: '{nombre}',
         comida: '{comida}',
         restaurante: '{restaurante}',
@@ -34,10 +33,16 @@ def crear_usuario():
         contraseña: '{hashed}',
         perfil: '{perfil}'
     }})
-    (u)-[:ES]->(p:Perfiles.csv {{nombre: '{perfil}'}})
+    RETURN u
+    """
+    query2 = f"""
+    MATCH (u:Usuarios {{nombre: '{nombre}'}})
+    MATCH (p:Perfiles {{nombre: '{perfil}'}})
+    CREATE (u)-[:ES]->(p)
     RETURN u
     """
     queryWithoutResults(conn, query)
+    queryWithoutResults(conn, query2)
     print("Usuario creado exitosamente.")
     return nombre
 
@@ -45,7 +50,7 @@ def iniciar_sesion():
     correo = input("Correo: ")
     password = input("Contraseña: ")
 
-    query = f"MATCH (u:Usuarios.csv {{correo: '{correo}'}}) RETURN u.nombre AS nombre, u.contraseña AS pass"
+    query = f"MATCH (u:Usuarios {{correo: '{correo}'}}) RETURN u.nombre AS nombre, u.contraseña AS pass"	
     resultados = conn.run_query(query)
 
     if not resultados:
@@ -65,9 +70,10 @@ def iniciar_sesion():
 def hacer_pedido(nombre):
     restaurante = input("Nombre del restaurante al que quieres pedir: ")
     query = f"""
-    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}}), (r:Restaurantes.csv {{nombre: '{restaurante}'}})
-    CREATE (u)-[:PEDIR]->(r)
-    RETURN u, r
+    MATCH (u:Usuarios {{nombre: '{nombre}'}})
+    MATCH (r:Restaurantes {{nombre: '{restaurante}'}})
+    CREATE (u)-[k:PEDIR]->(r)
+    RETURN u, k, r
     """
     queryWithoutResults(conn, query)
     print(f"Pedido realizado a {restaurante}.")
@@ -76,7 +82,7 @@ def alterar_datos(nombre):
     nuevo_restaurante = input("Nuevo restaurante favorito: ")
     nueva_comida = input("Nueva comida preferida: ")
     query = f"""
-    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})
+    MATCH (u:Usuarios {{nombre: '{nombre}'}})
     SET u.restaurante = '{nuevo_restaurante}', u.comida = '{nueva_comida}'
     RETURN u
     """
@@ -85,21 +91,21 @@ def alterar_datos(nombre):
 
 def ver_recomendaciones(nombre):
     explicit = f"""
-    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})-[:PEDIR]->(r:Restaurantes.csv)<-[:PEDIR]-(otro:Usuarios.csv)-[:PEDIR]->(sugerido:Restaurantes.csv)
+    MATCH (u:Usuarios {{nombre: '{nombre}'}})-[:PEDIR]->(r:Restaurantes)<-[:PEDIR]-(otro:Usuarios)-[:PEDIR]->(sugerido:Restaurantes)
     WHERE NOT (u)-[:PEDIR]->(sugerido)
     RETURN sugerido.nombre
     LIMIT 5
     """
     content = f"""
-    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})
-    MATCH (r:Restaurantes.csv)
-    WHERE r.tipo CONTAINS u.comida AND r.calificacion >= 4.0
+    MATCH (u:Usuarios {{nombre: '{nombre}'}})
+    MATCH (r:Restaurantes)
+    WHERE r.tipo CONTAINS u.comida OR r.nombre CONTAINS u.restaurante
     RETURN r.nombre
     LIMIT 5
     """
     profile = f"""
-    MATCH (u:Usuarios.csv {{nombre: '{nombre}'}})-[:ES]->(p:Perfiles.csv)
-    MATCH (r:Restaurantes.csv)
+    MATCH (u:Usuarios {{nombre: '{nombre}'}})-[:ES]->(p:Perfiles)
+    MATCH (r:Restaurantes)
     WHERE r.calificacion >= p.calificacion
     RETURN r.nombre
     LIMIT 5
@@ -142,7 +148,7 @@ def menu_usuario(nombre):
 
 def main():
     while True:
-        print("\n📦 MENÚ PRINCIPAL")
+        print("\nMENÚ PRINCIPAL")
         print("1. Crear usuario")
         print("2. Iniciar sesión")
         print("3. Salir")
