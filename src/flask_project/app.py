@@ -1,6 +1,27 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask import Flask, render_template, request, redirect, url_for, session
+from Neo4jConnection import Neo4jConnection
+from neo4j import GraphDatabase
+
 
 app = Flask(__name__)
+# Conexión a la base de datos Neo4j Aura
+conn = Neo4jConnection(
+    "neo4j+s://33610e87.databases.neo4j.io",  # URI de Aura
+    "neo4j",                                  # Usuario por defecto
+    "PASSWORD"              # 👈 Reemplaza esto con tu contraseña real
+)
+
+# Prueba de conexión
+print("Probando conexión a Neo4j...")
+try:
+    resultado = conn.run_query("RETURN '¡Conexión exitosa!' AS mensaje")
+    print(resultado[0]['mensaje'])  # Imprime: ¡Conexión exitosa!
+except Exception as e:
+    print("Error al conectar a Neo4j:", e)
+
 
 app.secret_key = "clave_secreta"
 # Configuración de la clave secreta para la sesión
